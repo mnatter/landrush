@@ -57,6 +57,29 @@ module Landrush
     action_hook 'landrush_teardown', :machine_action_destroy, &landrush_teardown
     action_hook 'landrush_teardown', :machine_action_reload, &landrush_teardown
 
+    # Added guest_capability specificity for CoreOS -- M. Natter, 04-Jul-2015
+    ## To configure for detection of CoreOS, set the 'vm.guest' property to "coreos" in your Vagrantfile configuration, for example:
+    ## Vagrant.configure(2) do |config|
+    ##  config.vm.guest = "coreos"
+    ##  config.landrush.enabled = true
+    ##  ...
+    ##  end
+    
+    guest_capability('coreos', 'iptables_installed') do
+      require_relative 'cap/coreos/iptables_installed'
+      Cap::Coreos::IptablesInstalled
+    end
+
+    guest_capability('coreos', 'install_iptables') do
+      require_relative 'cap/coreos/install_iptables'
+      Cap::Coreos::InstallIptables
+    end
+    
+      guest_capability('coreos', 'read_host_visible_ip_address') do
+      require_relative 'cap/coreos/read_host_visible_ip_address'
+      Cap::Coreos::ReadHostVisibleIpAddress
+    end
+    
     guest_capability('debian', 'iptables_installed') do
       require_relative 'cap/debian/iptables_installed'
       Cap::Debian::IptablesInstalled

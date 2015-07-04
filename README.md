@@ -1,4 +1,5 @@
-# Landrush: DNS for Vagrant [![Build Status](https://travis-ci.org/phinze/landrush.png)](https://travis-ci.org/phinze/landrush)
+# Landrush: DNS for Vagrant 
+Forked from https://travis-ci.org/phinze/landrush
 
 Simple DNS that's visible on both the guest and the host.
 
@@ -104,6 +105,17 @@ You might want to resolve Landrush's DNS-entries on *additional* computing devic
 
 Please refer to [/doc/proxy-mobile](/doc/proxy-mobile) for instructions.
 
+### Compatibility with other Linux guest distros
+
+Some Linux distros such as [CoreOS](http://coreos.com) use iptables but do not support ```hostname -I```  detection of IP addresses. You can configure Landrush for compatibility with CoreOS in such cases by configuring the 'vm.guest' property in your Vagrantfile to "coreos", for instance:
+
+    Vagrant.configure(2) do |config|
+      ...
+      config.vm.guest = "coreos"
+      config.landrush.enabled = true
+      ...
+    end
+    
 ### Additional CLI commands
 
 Check out `vagrant landrush` for additional commands to monitor the DNS server daemon.
